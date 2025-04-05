@@ -13,18 +13,22 @@ struct SortingChartView: View {
     let items: [Int]
 
     var body: some View {
-        Chart {
-            ForEach(Array(items.enumerated()), id: \.offset) { (index, value) in
-                BarMark(
-                    x: .value("Index", index),
-                    y: .value("Value", value)
-                )
-                .foregroundStyle(barColor(value))
+        GeometryReader { proxy in
+            Chart {
+                ForEach(Array(items.enumerated()), id: \.offset) { (index, value) in
+                    BarMark(
+                        x: .value("Index", index),
+                        y: .value("Value", value),
+                        width: .fixed(proxy.size.width / CGFloat(items.count))
+                    )
+                    .foregroundStyle(barColor(value))
+                }
             }
+            .chartXAxis(.hidden)
+            .chartYAxis(.hidden)
+            .animation(.linear(duration: 0.2), value: items)
+            .padding()
         }
-        .chartXAxis(.hidden)
-        .chartYAxis(.hidden)
-        .animation(.linear(duration: 0.2), value: items)
     }
 
     private func barColor(_ value: Int) -> Color {

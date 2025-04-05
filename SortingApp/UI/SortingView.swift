@@ -9,7 +9,11 @@ import SwiftUI
 import Charts
 
 struct SortingView: View {
-    private static let initialState: [Int] = DemoData.reversed
+    // 10 random numbers shuffled
+    private static let initialState: [Int] = [15, 3, 14, 29, 10, 8, 21, 13, 5, 20]
+    
+        
+        
     
     @State private var sortingType: SortingType = .bubble
     @State private var isSorting = false
