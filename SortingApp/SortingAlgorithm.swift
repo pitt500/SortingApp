@@ -7,12 +7,16 @@
 
 import SwiftUI
 
-enum SortingType: String, CaseIterable {
+enum SortingType: String, CaseIterable, Identifiable {
     case bubble = "Bubble"
     case selection = "Selection"
     case insertion = "Insertion"
     case merge = "Merge"
     case quick = "Quick"
+    
+    var id: String {
+        self.rawValue
+    }
 }
 
 @Observable

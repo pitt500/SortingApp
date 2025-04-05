@@ -19,7 +19,7 @@ struct SortingView: View {
     var body: some View {
         VStack {
             Picker("Algorithm", selection: $sortingType) {
-                ForEach(SortingType.allCases, id: \.self) { algo in
+                ForEach(SortingType.allCases) { algo in
                     Text(algo.rawValue).tag(algo)
                 }
             }
@@ -62,27 +62,8 @@ struct SortingView: View {
                 .font(.largeTitle)
                 .padding()
 
-            Chart {
-                ForEach(Array(sortingAlgorithm.items.enumerated()), id: \.offset) { (index, value) in
-                    BarMark(
-                        x: .value("Index", index),
-                        y: .value("Value", value)
-                    )
-                    .foregroundStyle(barColor(value: value))
-                }
-            }
-            .chartXAxis(.hidden)
-            .chartYAxis(.hidden)
-            .animation(.linear(duration: 0.2), value: sortingAlgorithm.items)
-            .frame(height: 250)
-            .padding()
+            SortingChartView(items: sortingAlgorithm.items)
         }
-    }
-
-    private func barColor(value: Int) -> Color {
-        let normalized = Double(value - 1) / 99.0
-        let hue = 0.4 * normalized
-        return Color(hue: hue, saturation: 0.9, brightness: 0.9)
     }
 
     private func reset() {
@@ -98,7 +79,6 @@ struct SortingView: View {
             await sortingAlgorithm.sort(using: sortingType)
 
             isSorting = false
-            sortingTask = nil
         }
     }
 
