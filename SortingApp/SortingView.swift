@@ -9,12 +9,12 @@ import SwiftUI
 import Charts
 
 struct SortingView: View {
-    @State private var items: [Int] = [27,8,12,54,32,42,32,54,97,14,96,9,28,35,5,41,78,11,14,96,1,18,73,91,79,65,28,80,98,99,11,19,65,78,61,31,64,41,98,10,69,99,4,62,60,11,85,26,64,25,2,77,97,52,90,76,50,72,73,46,100,16,29,52,63,5,61,71,47,89,15,36,28,83,67,46,71,10,94,77,88,71,44,71,77,13,32,54,67,73,92,42,21,35,39,22,29,58,42,15]
+    private static let initialState: [Int] = [27,8,12,54,32,42,32,54,97,14,96,9,28,35,5,41,78,11,14,96,1,18,73,91,79,65,28,80,98,99,11,19,65,78,61,31,64,41,98,10,69,99,4,62,60,11,85,26,64,25,2,77,97,52,90,76,50,72,73,46,100,16,29,52,63,5,61,71,47,89,15,36,28,83,67,46,71,10,94,77,88,71,44,71,77,13,32,54,67,73,92,42,21,35,39,22,29,58,42,15]
+    
     @State private var sortingType: SortingType = .bubble
     @State private var isSorting = false
     @State private var sortingTask: Task<Void, Never>? = nil
-    @State private var startTime: Date? = nil
-    @State private var timeElapsed: TimeInterval? = nil
+    @State private var sortingAlgorithm = SortingAlgorithm(items: initialState)
 
     var body: some View {
         VStack {
@@ -44,6 +44,8 @@ struct SortingView: View {
                     Text("Reset")
                         .padding()
                 }
+                .disabled(isSorting)
+                
                 Spacer()
 
                 Button {
@@ -61,7 +63,7 @@ struct SortingView: View {
                 .padding()
 
             Chart {
-                ForEach(Array(items.enumerated()), id: \.offset) { (index, value) in
+                ForEach(Array(sortingAlgorithm.items.enumerated()), id: \.offset) { (index, value) in
                     BarMark(
                         x: .value("Index", index),
                         y: .value("Value", value)
@@ -71,7 +73,7 @@ struct SortingView: View {
             }
             .chartXAxis(.hidden)
             .chartYAxis(.hidden)
-            .animation(.linear(duration: 0.2), value: items)
+            .animation(.linear(duration: 0.2), value: sortingAlgorithm.items)
             .frame(height: 250)
             .padding()
         }
@@ -84,22 +86,16 @@ struct SortingView: View {
     }
 
     private func reset() {
-        items = [27,8,12,54,32,42,32,54,97,14,96,9,28,35,5,41,78,11,14,96,1,18,73,91,79,65,28,80,98,99,11,19,65,78,61,31,64,41,98,10,69,99,4,62,60,11,85,26,64,25,2,77,97,52,90,76,50,72,73,46,100,16,29,52,63,5,61,71,47,89,15,36,28,83,67,46,71,10,94,77,88,71,44,71,77,13,32,54,67,73,92,42,21,35,39,22,29,58,42,15]
+        sortingAlgorithm.reset(with: Self.initialState)
     }
 
     private func startSorting() {
         guard !isSorting else { return }
-        startTime = Date()
-        timeElapsed = nil
         isSorting = true
+        
 
         sortingTask = Task {
-            await SortingAlgorithm.sort($items, sortingType: sortingType)
-
-            if !Task.isCancelled {
-                let endTime = Date()
-                timeElapsed = endTime.timeIntervalSince(startTime!)
-            }
+            await sortingAlgorithm.sort(using: sortingType)
 
             isSorting = false
             sortingTask = nil
@@ -113,8 +109,8 @@ struct SortingView: View {
     }
 
     private var formattedTimeElapsed: String {
-        guard let timeElapsed else { return "N/A" }
-        return String(format: "%.3f s", timeElapsed)
+        guard let time = sortingAlgorithm.timeElapsed else { return "N/A" }
+        return String(format: "%.3f s", time)
     }
 }
 
