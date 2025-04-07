@@ -57,7 +57,7 @@ class SortingAlgorithm {
     }
     
     private func delay() async {
-        let duration: Duration = .seconds(1)
+        let duration: Duration = .seconds(0.5)
         
         if duration == .seconds(0) {
             await Task.yield()
@@ -158,9 +158,15 @@ class SortingAlgorithm {
         let rightArray = Array(items[mid+1...right])
         var i = 0
         var j = 0
+        
         for k in left...right {
             if Task.isCancelled { return }
+            
             if i < leftArray.count && j < rightArray.count {
+                // Compare elements from both arrays
+                firstIndex = left + i
+                secondIndex = mid + 1 + j
+                
                 if leftArray[i] <= rightArray[j] {
                     items[k] = leftArray[i]
                     i += 1
@@ -169,17 +175,26 @@ class SortingAlgorithm {
                     j += 1
                 }
             } else if i < leftArray.count {
+                // Only elements from left array remain
+                firstIndex = left + i
+                secondIndex = nil
                 items[k] = leftArray[i]
                 i += 1
             } else {
+                // Only elements from right array remain
+                firstIndex = mid + 1 + j
+                secondIndex = nil
                 items[k] = rightArray[j]
                 j += 1
             }
             
-            // Update time & pause to let UI refresh
             await updateTimeElapsed()
             await delay()
         }
+        
+        // Clear indices when done with this merge
+        firstIndex = nil
+        secondIndex = nil
     }
 
     private func quickSort(_ low: Int, _ high: Int) async {
