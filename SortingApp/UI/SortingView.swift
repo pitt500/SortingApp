@@ -9,13 +9,13 @@ import SwiftUI
 import Charts
 
 struct SortingView: View {
-    // 10 random numbers shuffled
-    private static let initialState: [Int] = [15, 3, 14, 29, 10, 8, 21, 13, 5, 20]
+    private static let initialState: [Int] = [27,8,12,54,32,42,32,34,27,14,36,9,28,35,5,41,78,11,14]
     
     @State private var sortingType: SortingType = .bubble
     @State private var isSorting = false
     @State private var sortingTask: Task<Void, Never>? = nil
     @State private var sortingAlgorithm = SortingAlgorithm(items: initialState)
+    @State private var showTimer = false
 
     var body: some View {
         VStack {
@@ -59,11 +59,18 @@ struct SortingView: View {
                 Spacer()
             }
 
-            Text("Time: \(formattedTimeElapsed)")
-                .font(.largeTitle)
-                .padding()
+            if showTimer {
+                Text("Time: \(formattedTimeElapsed)")
+                    .font(.largeTitle)
+                    .padding()
+            }
 
-            SortingChartView(items: sortingAlgorithm.items)
+            SortingChartView(
+                items: sortingAlgorithm.items,
+                firstIndex: sortingAlgorithm.firstIndex,
+                secondIndex: sortingAlgorithm.secondIndex
+            )
+                
         }
     }
 
@@ -75,7 +82,6 @@ struct SortingView: View {
         guard !isSorting else { return }
         isSorting = true
         
-
         sortingTask = Task {
             await sortingAlgorithm.sort(using: sortingType)
 

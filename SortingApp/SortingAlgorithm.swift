@@ -24,6 +24,8 @@ class SortingAlgorithm {
     var items: [Int]
     var timeElapsed: TimeInterval? = nil
     var startTime: Date? = nil
+    var firstIndex: Int?
+    var secondIndex: Int?
     
     init(items: [Int]) {
         self.items = items
@@ -50,41 +52,62 @@ class SortingAlgorithm {
         self.items = items
         timeElapsed = nil
         startTime = nil
+        firstIndex = nil
+        secondIndex = nil
+    }
+    
+    private func delay() async {
+        let duration: Duration = .seconds(1)
+        
+        if duration == .seconds(0) {
+            await Task.yield()
+        } else {
+            try? await Task.sleep(for: duration)
+        }
     }
 
     private func bubbleSort() async {
         for i in 0..<items.count {
             for j in 0..<items.count - i - 1 {
                 if Task.isCancelled { return }
+                firstIndex = j
+                secondIndex = j + 1
                 if items[j] > items[j + 1] {
                     items.swapAt(j, j + 1)
                 }
                 
                 // Update time & pause to let UI refresh
                 await updateTimeElapsed()
-                await Task.yield()
+                await delay()
             }
         }
+        
+        firstIndex = nil
+        secondIndex = nil
     }
 
     private func selectionSort() async {
         for i in 0..<items.count {
             if Task.isCancelled { return }
             var minIndex = i
+            //firstIndex = i
             for j in (i+1)..<items.count {
                 if Task.isCancelled { return }
+                //secondIndex = j
                 if items[j] < items[minIndex] {
                     minIndex = j
                 }
                 
                 // Update time & pause to let UI refresh
                 await updateTimeElapsed()
-                await Task.yield()
+                await delay()
             }
             if minIndex != i {
                 items.swapAt(i, minIndex)
             }
         }
+        firstIndex = nil
+        secondIndex = nil
     }
 
     private func insertionSort() async {
@@ -99,7 +122,7 @@ class SortingAlgorithm {
                 
                 // Update time & pause to let UI refresh
                 await updateTimeElapsed()
-                await Task.yield()
+                await delay()
             }
             items[j + 1] = key
         }
@@ -142,7 +165,7 @@ class SortingAlgorithm {
             
             // Update time & pause to let UI refresh
             await updateTimeElapsed()
-            await Task.yield()
+            await delay()
         }
     }
 
@@ -169,7 +192,7 @@ class SortingAlgorithm {
             
             // Update time & pause to let UI refresh
             await updateTimeElapsed()
-            await Task.yield()
+            await delay()
         }
         items.swapAt(i, high)
         return i
