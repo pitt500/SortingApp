@@ -90,12 +90,14 @@ class SortingAlgorithm {
         for i in 0..<items.count {
             if Task.isCancelled { return }
             var minIndex = i
-            //firstIndex = i
+            firstIndex = i
             for j in (i+1)..<items.count {
+                secondIndex = j
                 if Task.isCancelled { return }
                 //secondIndex = j
                 if items[j] < items[minIndex] {
                     minIndex = j
+                    firstIndex = j
                 }
                 
                 // Update time & pause to let UI refresh
