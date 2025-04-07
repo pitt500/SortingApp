@@ -117,17 +117,28 @@ class SortingAlgorithm {
             if Task.isCancelled { return }
             let key = items[i]
             var j = i - 1
+            firstIndex = i  // Current element being inserted
+            
             while j >= 0 && items[j] > key {
                 if Task.isCancelled { return }
-                items[j + 1] = items[j]
+                secondIndex = j  // Element being compared against
+                items.swapAt(j + 1, j)
                 j -= 1
                 
-                // Update time & pause to let UI refresh
                 await updateTimeElapsed()
                 await delay()
             }
             items[j + 1] = key
+            
+            // Reset indices for next iteration
+            secondIndex = nil
+            await updateTimeElapsed()
+            await delay()
         }
+        
+        // Clear indices when done
+        firstIndex = nil
+        secondIndex = nil
     }
 
     private func mergeSort(_ left: Int, _ right: Int) async {
