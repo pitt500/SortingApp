@@ -27,16 +27,16 @@ A beautiful and interactive visualization tool for common sorting algorithms bui
 
 ## Requirements
 
-- iOS 16.0+
-- macOS 13.0+
-- Xcode 15.0+
-- Swift 5.9+
+- iOS 18.1+
+- macOS 15.1+
+- Xcode 16+
+- Swift 6.0+
 
 ## Installation
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/your-username/SortingVisualizer.git
+git clone https://github.com/pitt500/SortingApp.git
 ```
 
 2. Open `SortingApp.xcodeproj` in Xcode
@@ -92,3 +92,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Screenshots
 
+TBD
