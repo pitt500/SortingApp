@@ -15,10 +15,10 @@ struct SortingAppApp: App {
         }
         #if os(macOS)
         .commands {
-            // Only keep essential command groups
+            // Replace app info menu with About
             CommandGroup(replacing: .appInfo) {
                 Button("About Sorting Visualizer") {
-                    // Handle about action
+                    NSApp.orderFrontStandardAboutPanel()
                 }
             }
             
@@ -33,7 +33,6 @@ struct SortingAppApp: App {
             
             // Remove File menu
             CommandGroup(replacing: .newItem) { }
-            
             
             // Remove Edit menu
             CommandGroup(replacing: .pasteboard) { }

@@ -10,12 +10,17 @@ import SwiftUI
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var settings = SortingSettings.shared
+    @State private var showAbout = false
     
     var body: some View {
         #if os(macOS)
         settingsContent
             .frame(width: 350, height: 300)
             .padding()
+            .sheet(isPresented: $showAbout) {
+                AboutView()
+                    .frame(width: 300, height: 400)
+            }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Close") {
@@ -34,6 +39,9 @@ struct SettingsView: View {
                             dismiss()
                         }
                     }
+                }
+                .sheet(isPresented: $showAbout) {
+                    AboutView()
                 }
         }
         #endif
@@ -62,6 +70,17 @@ struct SettingsView: View {
                     Text("\(settings.animationDuration, specifier: "%.1f") seconds")
                         .foregroundStyle(.secondary)
                 }
+            }
+            
+            Section {
+                HStack {
+                    Spacer()
+                    Button("About Sorting Visualizer") {
+                        showAbout.toggle()
+                    }
+                    Spacer()
+                }
+                .listRowBackground(Color.clear)
             }
         }
         #if os(macOS)
