@@ -9,16 +9,21 @@ import SwiftUI
 
 @main
 struct SortingAppApp: App {
+    @State private var showAbout = false
+    
     var body: some Scene {
         WindowGroup {
             SortingView()
+                .sheet(isPresented: $showAbout) {
+                    AboutView()
+                }
         }
         #if os(macOS)
         .commands {
             // Replace app info menu with About
             CommandGroup(replacing: .appInfo) {
                 Button("About Sorting Visualizer") {
-                    NSApp.orderFrontStandardAboutPanel()
+                    showAbout = true
                 }
             }
             
