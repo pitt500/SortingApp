@@ -6,11 +6,27 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		B52879202DA4A084006C2C5F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B5B2B0072D7D0CE100269AF8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B5B2B00E2D7D0CE100269AF8;
+			remoteInfo = SortingApp;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		B528791C2DA4A084006C2C5F /* SortingAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SortingAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5B2B00F2D7D0CE100269AF8 /* SortingApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SortingApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		B528791D2DA4A084006C2C5F /* SortingAppTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SortingAppTests;
+			sourceTree = "<group>";
+		};
 		B5B2B0112D7D0CE100269AF8 /* SortingApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = SortingApp;
@@ -19,6 +35,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		B52879192DA4A084006C2C5F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B5B2B00C2D7D0CE100269AF8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -33,6 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				B5B2B0112D7D0CE100269AF8 /* SortingApp */,
+				B528791D2DA4A084006C2C5F /* SortingAppTests */,
 				B5B2B0102D7D0CE100269AF8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				B5B2B00F2D7D0CE100269AF8 /* SortingApp.app */,
+				B528791C2DA4A084006C2C5F /* SortingAppTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,6 +73,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		B528791B2DA4A084006C2C5F /* SortingAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B52879222DA4A084006C2C5F /* Build configuration list for PBXNativeTarget "SortingAppTests" */;
+			buildPhases = (
+				B52879182DA4A084006C2C5F /* Sources */,
+				B52879192DA4A084006C2C5F /* Frameworks */,
+				B528791A2DA4A084006C2C5F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B52879212DA4A084006C2C5F /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				B528791D2DA4A084006C2C5F /* SortingAppTests */,
+			);
+			name = SortingAppTests;
+			packageProductDependencies = (
+			);
+			productName = SortingAppTests;
+			productReference = B528791C2DA4A084006C2C5F /* SortingAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		B5B2B00E2D7D0CE100269AF8 /* SortingApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B5B2B01E2D7D0CE300269AF8 /* Build configuration list for PBXNativeTarget "SortingApp" */;
@@ -80,6 +128,11 @@
 				LastSwiftUpdateCheck = 1610;
 				LastUpgradeCheck = 1610;
 				TargetAttributes = {
+					B528791B2DA4A084006C2C5F = {
+						CreatedOnToolsVersion = 16.1;
+						LastSwiftMigration = 1610;
+						TestTargetID = B5B2B00E2D7D0CE100269AF8;
+					};
 					B5B2B00E2D7D0CE100269AF8 = {
 						CreatedOnToolsVersion = 16.1;
 					};
@@ -100,11 +153,19 @@
 			projectRoot = "";
 			targets = (
 				B5B2B00E2D7D0CE100269AF8 /* SortingApp */,
+				B528791B2DA4A084006C2C5F /* SortingAppTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		B528791A2DA4A084006C2C5F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B5B2B00D2D7D0CE100269AF8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,6 +176,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		B52879182DA4A084006C2C5F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B5B2B00B2D7D0CE100269AF8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -124,7 +192,64 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		B52879212DA4A084006C2C5F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B5B2B00E2D7D0CE100269AF8 /* SortingApp */;
+			targetProxy = B52879202DA4A084006C2C5F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		B52879232DA4A084006C2C5F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LHJA6J73E9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				MACOSX_DEPLOYMENT_TARGET = 15.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.swiftandtips.SortingAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SortingApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SortingApp";
+				XROS_DEPLOYMENT_TARGET = 2.1;
+			};
+			name = Debug;
+		};
+		B52879242DA4A084006C2C5F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LHJA6J73E9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				MACOSX_DEPLOYMENT_TARGET = 15.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.swiftandtips.SortingAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SortingApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SortingApp";
+				XROS_DEPLOYMENT_TARGET = 2.1;
+			};
+			name = Release;
+		};
 		B5B2B01C2D7D0CE300269AF8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -320,6 +445,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		B52879222DA4A084006C2C5F /* Build configuration list for PBXNativeTarget "SortingAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B52879232DA4A084006C2C5F /* Debug */,
+				B52879242DA4A084006C2C5F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		B5B2B00A2D7D0CE100269AF8 /* Build configuration list for PBXProject "SortingApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

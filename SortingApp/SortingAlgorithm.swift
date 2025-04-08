@@ -34,6 +34,10 @@ class SortingAlgorithm {
     func sort(using sortingType: SortingType) async {
         startTime = Date()
         
+        guard items.count > 1 else {
+            return
+        }
+        
         switch sortingType {
         case .bubble:
             await bubbleSort()
