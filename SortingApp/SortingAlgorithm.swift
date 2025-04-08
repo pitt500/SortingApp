@@ -61,7 +61,7 @@ class SortingAlgorithm {
     }
     
     private func delay() async {
-        let duration: Duration = .seconds(0.5)
+        let duration: Duration = .seconds(SortingSettings.shared.animationDuration)
         
         if duration == .seconds(0) {
             await Task.yield()
