@@ -15,63 +15,98 @@ struct SortingView: View {
     @State private var isSorting = false
     @State private var sortingTask: Task<Void, Never>? = nil
     @State private var sortingAlgorithm = SortingAlgorithm(items: initialState)
-    @State private var showTimer = false
+    @State private var showSettings = false
+    
+    private var settings: SortingSettings {
+        SortingSettings.shared
+    }
 
     var body: some View {
-        VStack {
-            Picker("Algorithm", selection: $sortingType) {
-                ForEach(SortingType.allCases) { algo in
-                    Text(algo.rawValue).tag(algo)
+        NavigationStack {
+            VStack {
+                Picker("Algorithm", selection: $sortingType) {
+                    ForEach(SortingType.allCases) { algo in
+                        Text(algo.rawValue).tag(algo)
+                    }
                 }
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding()
+                .pickerStyle(SegmentedPickerStyle())
+                .padding()
 
-            HStack {
-                Spacer()
-                Button {
-                    startSorting()
-                } label: {
-                    Text("Sort")
+                HStack {
+                    Spacer()
+                    Button {
+                        startSorting()
+                    } label: {
+                        Text("Sort")
+                            .padding()
+                    }
+                    .disabled(isSorting)
+
+                    Spacer(minLength: 20)
+
+                    Button {
+                        reset()
+                    } label: {
+                        Text("Reset")
+                            .padding()
+                    }
+                    .disabled(isSorting)
+                    
+                    Spacer()
+
+                    Button {
+                        cancelSorting()
+                    } label: {
+                        Text("Cancel")
+                            .padding()
+                    }
+                    .disabled(!isSorting)
+                    Spacer()
+                }
+
+                if settings.showTimer {
+                    Text("Time: \(formattedTimeElapsed)")
+                        .font(.largeTitle)
                         .padding()
                 }
-                .disabled(isSorting)
 
-                Spacer(minLength: 20)
-
-                Button {
-                    reset()
-                } label: {
-                    Text("Reset")
-                        .padding()
-                }
-                .disabled(isSorting)
-                
-                Spacer()
-
-                Button {
-                    cancelSorting()
-                } label: {
-                    Text("Cancel")
-                        .padding()
-                }
-                .disabled(!isSorting)
-                Spacer()
+                SortingChartView(
+                    items: sortingAlgorithm.items,
+                    firstIndex: sortingAlgorithm.firstIndex,
+                    secondIndex: sortingAlgorithm.secondIndex
+                )
             }
-
-            if showTimer {
-                Text("Time: \(formattedTimeElapsed)")
-                    .font(.largeTitle)
-                    .padding()
+            .navigationTitle("Sorting Visualizer")
+            .toolbar {
+                #if os(iOS)
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        showSettings.toggle()
+                    } label: {
+                        Image(systemName: "gear")
+                    }
+                }
+                #elseif os(macOS)
+                ToolbarItem {
+                    Button {
+                        showSettings.toggle()
+                    } label: {
+                        Image(systemName: "gear")
+                    }
+                }
+                #endif
             }
-
-            SortingChartView(
-                items: sortingAlgorithm.items,
-                firstIndex: sortingAlgorithm.firstIndex,
-                secondIndex: sortingAlgorithm.secondIndex
-            )
-                
         }
+        #if os(iOS)
+        .sheet(isPresented: $showSettings) {
+            SettingsView()
+        }
+        #elseif os(macOS)
+        .sheet(isPresented: $showSettings) {
+            SettingsView()
+                .frame(width: 350, height: 300)
+        }
+        #endif
     }
 
     private func reset() {
@@ -84,7 +119,6 @@ struct SortingView: View {
         
         sortingTask = Task {
             await sortingAlgorithm.sort(using: sortingType)
-
             isSorting = false
         }
     }
