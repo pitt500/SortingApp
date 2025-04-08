@@ -211,18 +211,32 @@ class SortingAlgorithm {
     private func partition(_ low: Int, _ high: Int) async -> Int {
         let pivot = items[high]
         var i = low
+        firstIndex = high  // Highlight pivot element
+        
         for j in low..<high {
             if Task.isCancelled { return i }
+            
+            secondIndex = j  // Element being compared with pivot
             if items[j] < pivot {
                 items.swapAt(i, j)
                 i += 1
             }
             
-            // Update time & pause to let UI refresh
             await updateTimeElapsed()
             await delay()
         }
+        
+        // Final swap to put pivot in its correct position
+        secondIndex = i
         items.swapAt(i, high)
+        
+        await updateTimeElapsed()
+        await delay()
+        
+        // Clear indices before returning
+        firstIndex = nil
+        secondIndex = nil
+        
         return i
     }
     
