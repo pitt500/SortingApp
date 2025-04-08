@@ -5,7 +5,6 @@
 //  Created by Pedro Rojas on 05/04/25.
 //
 
-
 import SwiftUI
 import Charts
 
@@ -13,6 +12,10 @@ struct SortingChartView: View {
     let items: [Int]
     let firstIndex: Int?
     let secondIndex: Int?
+    
+    private var settings: SortingSettings {
+        SortingSettings.shared
+    }
 
     var body: some View {
         GeometryReader { proxy in
@@ -25,15 +28,17 @@ struct SortingChartView: View {
                     )
                     .foregroundStyle(barColor(index: index, value: value))
                     .annotation(position: .top) {
-                        Text("\(value)")
-                            .font(.headline)
-                            .foregroundColor(.white)
+                        if settings.showBarValues {
+                            Text("\(value)")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                        }
                     }
                 }
             }
             .chartXAxis(.hidden)
             .chartYAxis(.hidden)
-            .animation(.linear(duration: 0.5), value: items)
+            .animation(settings.animationsEnabled ? .linear(duration: settings.animationDuration) : nil, value: items)
             .padding()
         }
     }
@@ -44,7 +49,6 @@ struct SortingChartView: View {
         } else if index == secondIndex {
             return .gray
         }
-        
         
         let normalized = Double(value - 1) / 99.0
         let hue = 0.4 * normalized
