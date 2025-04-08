@@ -13,5 +13,10 @@ struct SortingAppApp: App {
         WindowGroup {
             SortingView()
         }
+        #if os(macOS)
+        .commands {
+            MacSettingsCommands()
+        }
+        #endif
     }
 }
