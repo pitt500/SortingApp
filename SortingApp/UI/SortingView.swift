@@ -86,7 +86,7 @@ struct SortingView: View {
                         Image(systemName: "gear")
                     }
                 }
-                #elseif os(macOS)
+                #elseif os(macOS) || os(visionOS)
                 ToolbarItem {
                     Button {
                         showSettings.toggle()
@@ -105,6 +105,11 @@ struct SortingView: View {
         .sheet(isPresented: $showSettings) {
             SettingsView()
                 .frame(width: 350, height: 300)
+        }
+        #elseif os(macOS) || os(visionOS)
+        .sheet(isPresented: $showSettings) {
+            SettingsView()
+                .frame(width: 450, height: 580)
         }
         #endif
     }

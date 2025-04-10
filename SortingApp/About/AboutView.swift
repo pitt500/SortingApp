@@ -31,7 +31,19 @@ struct AboutView: View {
                     }
                 }
         }
-        #else
+        #elseif os(visionOS)
+        VStack {
+            HStack {
+                Spacer()
+                Button("Done") {
+                    dismiss()
+                }
+                .padding()
+            }
+            aboutContent
+        }
+        .frame(width: 400, height: 500)
+        #elseif os(macOS)
         VStack {
             aboutContent
         }
