@@ -24,11 +24,13 @@ A beautiful and interactive visualization tool for common sorting algorithms bui
   - iOS
   - iPadOS
   - macOS
+  - visionOS
 
 ## Requirements
 
-- iOS 18.1+
-- macOS 15.1+
+- iOS 18.0+
+- macOS 15.0+
+- visionOS 2.0+
 - Xcode 16+
 - Swift 6.0+
 
