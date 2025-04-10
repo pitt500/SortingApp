@@ -13,6 +13,8 @@ struct SortingChartView: View {
     let firstIndex: Int?
     let secondIndex: Int?
     
+    @Environment(\.colorScheme) private var colorScheme
+    
     private var settings: SortingSettings {
         SortingSettings.shared
     }
@@ -31,7 +33,7 @@ struct SortingChartView: View {
                         if settings.showBarValues {
                             Text("\(value)")
                                 .font(.headline)
-                                .foregroundColor(.white)
+                                .foregroundStyle(.primary)
                         }
                     }
                 }
@@ -45,9 +47,9 @@ struct SortingChartView: View {
 
     private func barColor(index: Int, value: Int) -> Color {
         if index == firstIndex {
-            return .black
+            return colorScheme == .dark ? .white : .black
         } else if index == secondIndex {
-            return .gray
+            return colorScheme == .dark ? .white.opacity(0.7) : .black.opacity(0.3)
         }
         
         let normalized = Double(value - 1) / 99.0
