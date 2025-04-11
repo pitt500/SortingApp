@@ -38,7 +38,7 @@ struct SortingChartView: View {
             .chartXAxis(.hidden)
             .chartYAxis(.hidden)
             .animation(settings.animationsEnabled ? .linear(duration: settings.animationDuration) : nil, value: items)
-            .padding()
+            .padding([.leading, .trailing], 10)
         }
     }
 

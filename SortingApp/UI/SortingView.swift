@@ -82,6 +82,7 @@ struct SortingView: View {
                     firstIndex: sortingAlgorithm.firstIndex,
                     secondIndex: sortingAlgorithm.secondIndex
                 )
+                .padding()
             }
             .navigationTitle("Sorting Visualizer")
             .toolbar {
@@ -111,12 +112,12 @@ struct SortingView: View {
         #elseif os(macOS)
         .sheet(isPresented: $showSettings) {
             SettingsView()
-                .frame(width: 350, height: 300)
+                .frame(width: 350, height: 450)
         }
-        #elseif os(macOS) || os(visionOS)
+        #elseif os(visionOS)
         .sheet(isPresented: $showSettings) {
             SettingsView()
-                .frame(width: 450, height: 580)
+                .frame(width: 450, height: 680)
         }
         #endif
         .onChange(of: settings.dataSetType) {
