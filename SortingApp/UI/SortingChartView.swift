@@ -14,10 +14,7 @@ struct SortingChartView: View {
     let secondIndex: Int?
     
     @Environment(\.colorScheme) private var colorScheme
-    
-    private var settings: SortingSettings {
-        SortingSettings.shared
-    }
+    @Environment(\.sortingSettings) private var settings
 
     var body: some View {
         GeometryReader { proxy in
