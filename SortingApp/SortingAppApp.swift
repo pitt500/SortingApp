@@ -9,11 +9,13 @@ import SwiftUI
 
 @main
 struct SortingAppApp: App {
+    @State private var settings = SortingSettings.shared
     @State private var showAbout = false
     
     var body: some Scene {
         WindowGroup {
             SortingView()
+                .environment(\.sortingSettings, settings)
                 .sheet(isPresented: $showAbout) {
                     AboutView()
                 }
