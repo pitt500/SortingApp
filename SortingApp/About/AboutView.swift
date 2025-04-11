@@ -99,7 +99,7 @@ struct AboutView: View {
             }
             .padding(.horizontal)
             
-            Text("Version 1.0")
+            Text("Version 0.1")
                 .foregroundStyle(.secondary)
                 .font(.footnote)
         }
