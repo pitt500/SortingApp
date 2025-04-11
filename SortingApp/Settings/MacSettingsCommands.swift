@@ -33,6 +33,17 @@ struct MacSettingsCommands: Commands {
                     }
                     Text("Current: \(settings.animationDuration, specifier: "%.1f") seconds")
                 }
+                
+                Section("Data Set") {
+                    Menu("Data Set Type") {
+                        Button("Small") { settings.dataSetType = .small }
+                        Button("Large") { settings.dataSetType = .large }
+                        Button("Sorted") { settings.dataSetType = .sorted }
+                        Button("Reversed") { settings.dataSetType = .reversed }
+                        Button("Random") { settings.dataSetType = .random }
+                    }
+                    Text("Current: \(settings.dataSetType.rawValue)")
+                }
             }
         }
     }
