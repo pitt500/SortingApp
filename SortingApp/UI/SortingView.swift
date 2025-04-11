@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Charts
+import Combine
 
 struct SortingView: View {
     @State private var sortingType: SortingType = .bubble
@@ -14,6 +15,9 @@ struct SortingView: View {
     @State private var sortingTask: Task<Void, Never>? = nil
     @State private var sortingAlgorithm: SortingAlgorithm
     @State private var showSettings = false
+    @State private var elapsedTime: TimeInterval = 0
+    @State private var timer = Timer.publish(every: 0.001, on: .main, in: .common)
+    @State private var timerSubscription: Cancellable?
     @Environment(\.sortingSettings) private var settings
     
     init() {
@@ -72,9 +76,12 @@ struct SortingView: View {
                 }
 
                 if settings.showTimer {
-                    Text("Time: \(formattedTimeElapsed)")
+                    Text("Time: \(String(format: "%.3f s", elapsedTime))")
                         .font(.largeTitle)
                         .padding()
+                        .monospacedDigit()
+                    // ADD: Fixed frame width to prevent movement
+                        .frame(width: 300, alignment: .center)
                 }
 
                 SortingChartView(
@@ -123,18 +130,38 @@ struct SortingView: View {
         .onChange(of: settings.dataSetType) {
             reset()
         }
+        .onDisappear {
+            cancelTimer()
+        }
+        .onReceive(timer) { _ in
+            elapsedTime += 0.001
+        }
     }
 
     private func reset() {
         sortingAlgorithm.reset(with: currentDataSet)
+        elapsedTime = 0
+        cancelTimer()
+    }
+
+    private func startTimer() {
+        elapsedTime = 0
+        timer = Timer.publish(every: 0.001, on: .main, in: .common)
+        timerSubscription = timer.connect()
+    }
+
+    private func cancelTimer() {
+        timerSubscription?.cancel()
     }
 
     private func startSorting() {
         guard !isSorting else { return }
         isSorting = true
+        startTimer()
         
         sortingTask = Task {
             await sortingAlgorithm.sort(using: sortingType)
+            cancelTimer()
             isSorting = false
         }
     }
@@ -143,11 +170,7 @@ struct SortingView: View {
         sortingTask?.cancel()
         sortingTask = nil
         isSorting = false
-    }
-
-    private var formattedTimeElapsed: String {
-        guard let time = sortingAlgorithm.timeElapsed else { return "N/A" }
-        return String(format: "%.3f s", time)
+        cancelTimer()
     }
 }
 
