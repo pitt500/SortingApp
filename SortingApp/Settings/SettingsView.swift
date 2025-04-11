@@ -19,7 +19,6 @@ struct SettingsView: View {
                 settings: settings,
                 showAbout: $showAbout
             )
-                .frame(width: 350, height: 300)
                 .padding()
                 .sheet(isPresented: $showAbout) {
                     AboutView()
@@ -35,7 +34,10 @@ struct SettingsView: View {
         }
         #else
         NavigationStack {
-            settingsContent
+            SettingsContent(
+                settings: settings,
+                showAbout: $showAbout
+            )
                 .navigationTitle("Settings")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
