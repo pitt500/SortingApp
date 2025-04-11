@@ -9,25 +9,30 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var settings = SortingSettings.shared
+    @Environment(\.sortingSettings) private var settings
     @State private var showAbout = false
     
     var body: some View {
         #if os(macOS)
-        settingsContent
-            .frame(width: 350, height: 300)
-            .padding()
-            .sheet(isPresented: $showAbout) {
-                AboutView()
-                    .frame(width: 300, height: 400)
-            }
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Close") {
-                        dismiss()
+        NavigationStack {
+            SettingsContent(
+                settings: settings,
+                showAbout: $showAbout
+            )
+                .frame(width: 350, height: 300)
+                .padding()
+                .sheet(isPresented: $showAbout) {
+                    AboutView()
+                        .frame(width: 300, height: 400)
+                }
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Close") {
+                            dismiss()
+                        }
                     }
                 }
-            }
+        }
         #else
         NavigationStack {
             settingsContent
@@ -46,29 +51,40 @@ struct SettingsView: View {
         }
         #endif
     }
+}
+
+struct SettingsContent: View {
+    @Bindable var settings: SortingSettings
+    @Binding var showAbout: Bool
     
-    private var settingsContent: some View {
+    var body: some View {
         Form {
-            Section {
-                Toggle("Enable Animations", isOn: $settings.animationsEnabled)
-                Toggle("Show Bar Values", isOn: $settings.showBarValues)
-                Toggle("Show Timer", isOn: $settings.showTimer)
-            }
-            
-            Section {
-                VStack(alignment: .leading) {
-                    Text("Animation Speed")
+            Section("Animation") {
+                Toggle("Enabled", isOn: $settings.animationsEnabled)
+                
+                if settings.animationsEnabled {
                     HStack {
-                        Text("Faster")
+                        Text("Duration")
                         Slider(
                             value: $settings.animationDuration,
-                            in: 0.1...2.0,
-                            step: 0.1
+                            in: 0.01...1.0,
+                            step: 0.01
                         )
-                        Text("Slower")
+                        Text(String(format: "%.2f", settings.animationDuration))
                     }
-                    Text("\(settings.animationDuration, specifier: "%.1f") seconds")
-                        .foregroundStyle(.secondary)
+                }
+            }
+            
+            Section("Display") {
+                Toggle("Show Timer", isOn: $settings.showTimer)
+                Toggle("Show Bar Values", isOn: $settings.showBarValues)
+            }
+            
+            Section("Data Set") {
+                Picker("Type", selection: $settings.dataSetType) {
+                    ForEach(DataSetType.allCases) { type in
+                        Text(type.rawValue).tag(type)
+                    }
                 }
             }
             
