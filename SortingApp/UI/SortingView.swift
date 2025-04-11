@@ -9,16 +9,23 @@ import SwiftUI
 import Charts
 
 struct SortingView: View {
-    private static let initialState: [Int] = [27,8,12,54,32,42,32,34,27,14,36,9,28,35,5,41,78,11,14]
-    
     @State private var sortingType: SortingType = .bubble
     @State private var isSorting = false
     @State private var sortingTask: Task<Void, Never>? = nil
-    @State private var sortingAlgorithm = SortingAlgorithm(items: initialState)
+    @State private var sortingAlgorithm: SortingAlgorithm
     @State private var showSettings = false
+    @Environment(\.sortingSettings) private var settings
     
-    private var settings: SortingSettings {
-        SortingSettings.shared
+    init() {
+        _sortingAlgorithm = State(
+            initialValue: SortingAlgorithm(
+                items: DataSetType.small.generateData()
+            )
+        )
+    }
+    
+    private var currentDataSet: [Int] {
+        settings.dataSetType.generateData()
     }
 
     var body: some View {
@@ -112,10 +119,13 @@ struct SortingView: View {
                 .frame(width: 450, height: 580)
         }
         #endif
+        .onChange(of: settings.dataSetType) {
+            reset()
+        }
     }
 
     private func reset() {
-        sortingAlgorithm.reset(with: Self.initialState)
+        sortingAlgorithm.reset(with: currentDataSet)
     }
 
     private func startSorting() {
