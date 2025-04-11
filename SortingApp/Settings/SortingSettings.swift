@@ -14,6 +14,7 @@ class SortingSettings {
     var showBarValues = true
     var showTimer = true
     var animationDuration: Double = 0.5
+    var dataSetType: DataSetType = .small
     
     static let shared = SortingSettings()
     private init() {}
