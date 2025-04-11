@@ -22,8 +22,6 @@ enum SortingType: String, CaseIterable, Identifiable {
 @Observable
 class SortingAlgorithm {
     var items: [Int]
-    var timeElapsed: TimeInterval? = nil
-    var startTime: Date? = nil
     var firstIndex: Int?
     var secondIndex: Int?
     
@@ -32,8 +30,6 @@ class SortingAlgorithm {
     }
     
     func sort(using sortingType: SortingType) async {
-        startTime = Date()
-        
         guard items.count > 1 else {
             return
         }
@@ -54,8 +50,6 @@ class SortingAlgorithm {
     
     func reset(with items: [Int]) {
         self.items = items
-        timeElapsed = nil
-        startTime = nil
         firstIndex = nil
         secondIndex = nil
     }
@@ -80,8 +74,6 @@ class SortingAlgorithm {
                     items.swapAt(j, j + 1)
                 }
                 
-                // Update time & pause to let UI refresh
-                await updateTimeElapsed()
                 await delay()
             }
         }
@@ -104,8 +96,6 @@ class SortingAlgorithm {
                     firstIndex = j
                 }
                 
-                // Update time & pause to let UI refresh
-                await updateTimeElapsed()
                 await delay()
             }
             if minIndex != i {
@@ -129,14 +119,12 @@ class SortingAlgorithm {
                 items.swapAt(j + 1, j)
                 j -= 1
                 
-                await updateTimeElapsed()
                 await delay()
             }
             items[j + 1] = key
             
             // Reset indices for next iteration
             secondIndex = nil
-            await updateTimeElapsed()
             await delay()
         }
         
@@ -192,7 +180,6 @@ class SortingAlgorithm {
                 j += 1
             }
             
-            await updateTimeElapsed()
             await delay()
         }
         
@@ -226,7 +213,6 @@ class SortingAlgorithm {
                 i += 1
             }
             
-            await updateTimeElapsed()
             await delay()
         }
         
@@ -234,7 +220,6 @@ class SortingAlgorithm {
         secondIndex = i
         items.swapAt(i, high)
         
-        await updateTimeElapsed()
         await delay()
         
         // Clear indices before returning
@@ -242,13 +227,5 @@ class SortingAlgorithm {
         secondIndex = nil
         
         return i
-    }
-    
-    /// Refresh the 'timeElapsed' to show how long the sort has been running.
-    @MainActor
-    private func updateTimeElapsed() async {
-        guard let startTime = startTime else { return }
-        
-        self.timeElapsed = Date().timeIntervalSince(startTime)
     }
 }
