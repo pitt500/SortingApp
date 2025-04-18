@@ -72,6 +72,7 @@ class SortingAlgorithm {
         }
     }
 
+    @MainActor
     private func bubbleSort() async {
         for i in 0..<items.count {
             for j in 0..<items.count - i - 1 {
@@ -90,6 +91,7 @@ class SortingAlgorithm {
         secondIndex = nil
     }
 
+    @MainActor
     private func selectionSort() async {
         for i in 0..<items.count {
             if Task.isCancelled { return }
@@ -114,6 +116,7 @@ class SortingAlgorithm {
         secondIndex = nil
     }
 
+    @MainActor
     private func insertionSort() async {
         for i in 1..<items.count {
             if Task.isCancelled { return }
@@ -141,6 +144,7 @@ class SortingAlgorithm {
         secondIndex = nil
     }
 
+    @MainActor
     private func mergeSort(_ left: Int, _ right: Int) async {
         if left < right {
             if Task.isCancelled { return }
@@ -153,6 +157,7 @@ class SortingAlgorithm {
         }
     }
 
+    @MainActor
     private func merge(_ left: Int, _ mid: Int, _ right: Int) async {
         let leftArray = Array(items[left...mid])
         let rightArray = Array(items[mid+1...right])
@@ -196,6 +201,7 @@ class SortingAlgorithm {
         secondIndex = nil
     }
     
+    @MainActor
     private func mergeParallelSort(_ left: Int, _ right: Int) async {
         if left < right {
              if Task.isCancelled { return }
@@ -214,6 +220,7 @@ class SortingAlgorithm {
         }
     }
 
+    @MainActor
     private func quickSort(_ low: Int, _ high: Int) async {
         if Task.isCancelled { return }
         if low < high {
@@ -225,6 +232,7 @@ class SortingAlgorithm {
         }
     }
 
+    @MainActor
     private func partition(_ low: Int, _ high: Int) async -> Int {
         let pivot = items[high]
         var i = low
