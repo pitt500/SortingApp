@@ -36,11 +36,11 @@ struct MacSettingsCommands: Commands {
                 
                 Section("Data Set") {
                     Menu("Data Set Type") {
-                        Button("Small") { settings.dataSetType = .small }
-                        Button("Large") { settings.dataSetType = .large }
-                        Button("Sorted") { settings.dataSetType = .sorted }
-                        Button("Reversed") { settings.dataSetType = .reversed }
-                        Button("Random") { settings.dataSetType = .random }
+                        ForEach(DataSetType.allCases, id: \.self) { type in
+                            Button(type.rawValue) {
+                                settings.dataSetType = type
+                            }
+                        }
                     }
                     Text("Current: \(settings.dataSetType.rawValue)")
                 }

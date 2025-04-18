@@ -1,11 +1,11 @@
 import Foundation
 
 enum DataSetType: String, CaseIterable, Identifiable {
-    case small = "Small Set"
-    case large = "Large Set"
-    case sorted = "Sorted"
-    case reversed = "Reversed"
-    case random = "Random"
+    case small = "Small Set (20)"
+    case large = "Large Set (100)"
+    case sorted = "Sorted (100)"
+    case reversed = "Reversed (100)"
+    case random = "Random (100)"
     
     var id: String { rawValue }
     
