@@ -10,7 +10,8 @@ A beautiful and interactive visualization tool for common sorting algorithms bui
   - Bubble Sort
   - Selection Sort
   - Insertion Sort
-  - Merge Sort
+  - Merge Sort (Traditional)
+  - Merge Sort (Parallel)
   - Quick Sort
 
 - **Interactive Visualization:**
