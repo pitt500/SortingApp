@@ -37,11 +37,17 @@ struct SortingView: View {
             VStack {
                 Picker("Algorithm", selection: $sortingType) {
                     ForEach(SortingType.allCases) { algo in
-                        Text(algo.rawValue).tag(algo)
+                        Text(algo.title)
+                            .tag(algo)
                     }
                 }
-                .pickerStyle(SegmentedPickerStyle())
-                .padding()
+                .pickerStyle(.menu)
+                #if os(macOS)
+                .frame(maxWidth: 300, alignment: .center)
+                #else
+                .frame(maxWidth: .infinity, alignment: .center)
+                #endif
+                .padding(.vertical)
 
                 HStack {
                     Spacer()

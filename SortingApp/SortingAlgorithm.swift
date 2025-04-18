@@ -13,10 +13,16 @@ enum SortingType: String, CaseIterable, Identifiable {
     case insertion = "Insertion"
     case merge = "Merge"
     case quick = "Quick"
+    case parallelMerge = "Parallel Merge"
     
     var id: String {
         self.rawValue
     }
+    
+    var title: String {
+        self.rawValue
+    }
+        
 }
 
 @Observable
@@ -45,6 +51,8 @@ class SortingAlgorithm {
             await mergeSort(0, items.count - 1)
         case .quick:
             await quickSort(0, items.count - 1)
+        case .parallelMerge:
+            await mergeParallelSort(0, items.count - 1)
         }
     }
     
@@ -186,6 +194,24 @@ class SortingAlgorithm {
         // Clear indices when done with this merge
         firstIndex = nil
         secondIndex = nil
+    }
+    
+    private func mergeParallelSort(_ left: Int, _ right: Int) async {
+        if left < right {
+             if Task.isCancelled { return }
+            
+             let mid = (left + right) / 2
+             async let merge1: Void = await mergeSort(left, mid)
+            
+             if Task.isCancelled { return }
+            
+             async let merge2: Void = await mergeSort(mid + 1, right)
+             if Task.isCancelled { return }
+             
+             await merge1
+             await merge2
+             await merge(left, mid, right)
+        }
     }
 
     private func quickSort(_ low: Int, _ high: Int) async {
