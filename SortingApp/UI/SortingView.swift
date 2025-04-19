@@ -16,8 +16,8 @@ struct SortingView: View {
     @State private var sortingAlgorithm: SortingAlgorithm
     @State private var showSettings = false
     @State private var elapsedTime: TimeInterval = 0
-    @State private var timer = Timer.publish(every: 0.001, on: .main, in: .common)
-    @State private var timerSubscription: Cancellable?
+    @State private var startTime: Date?
+    @State private var timerCancellable: Cancellable?
     @Environment(\.sortingSettings) private var settings
     
     init() {
@@ -139,25 +139,32 @@ struct SortingView: View {
         .onDisappear {
             cancelTimer()
         }
-        .onReceive(timer) { _ in
-            elapsedTime += 0.001
-        }
     }
 
     private func reset() {
         sortingAlgorithm.reset(with: currentDataSet)
         elapsedTime = 0
+        startTime = nil
         cancelTimer()
     }
 
     private func startTimer() {
+        startTime = Date()
         elapsedTime = 0
-        timer = Timer.publish(every: 0.001, on: .main, in: .common)
-        timerSubscription = timer.connect()
+        
+        timerCancellable = Timer.publish(every: 0.001, on: .main, in: .common)
+            .autoconnect()
+            .sink { _ in
+                if let start = startTime {
+                    self.elapsedTime = Date().timeIntervalSince(start)
+                }
+            }
     }
-
+    
     private func cancelTimer() {
-        timerSubscription?.cancel()
+        timerCancellable?.cancel()
+        timerCancellable = nil
+        startTime = nil
     }
 
     private func startSorting() {
